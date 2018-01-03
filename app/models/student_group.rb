@@ -1,3 +1,3 @@
 class StudentGroup < ApplicationRecord
-  belong_to: :user
+  belong_to :user
 end
