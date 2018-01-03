@@ -10,10 +10,22 @@ class UserController < ApplicationController
     end
   end
 
+  private
+
   def get_student_group(id)
-    @groups.where(group_id: id).all
+    @groups.where(group_id: id).where.not('date >= ?', Date.today).all
   end
 
-  helper_method :get_student_group
+
+  def get_group_history(id)
+    @groups.where(group_id: id).where.not('date >= ?', Date.today).all
+  end
+
+
+  def get_group_today(id)
+    @groups.where(group_id: id, date: Date.today).all
+  end
+
+  helper_method :get_student_group, :get_group_today, :get_group_history
 
 end
