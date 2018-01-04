@@ -8,9 +8,12 @@ class StudentGroupsController < ApplicationController
   @max_unique = (@number_of_students / @group_size) * (@number_of_students - 1)
   @iterations = @max_unique / @group_size
 
-  @used_numbers = []
   @used_groups = [[84,86],[83,84],[82,86]]
 
+
+  def self.tester(group)
+    User.check_group_used(group)
+  end
 
 
 
@@ -41,10 +44,6 @@ class StudentGroupsController < ApplicationController
     end
   end
 
-  def self.reset_used_numbers
-    @used_numbers = []
-  end
-
   def self.generate_group
     @group_size.times.collect { get_random_id }
   end
@@ -52,7 +51,7 @@ class StudentGroupsController < ApplicationController
   def self.get_random_id
     id = @students.sample
 
-    @students.delete_if { |student_id | student_id == id }
+    # @students.delete_if { |student_id | student_id == id }
   end
 
 
