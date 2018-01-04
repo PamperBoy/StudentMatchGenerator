@@ -9,7 +9,7 @@ class StudentGroupsController < ApplicationController
   @iterations = @max_unique / @group_size
 
   @used_numbers = []
-  @used_groups = [[84,86]]
+  @used_groups = [[84,86],[83,84],[82,86]]
 
 
 
@@ -31,14 +31,13 @@ class StudentGroupsController < ApplicationController
   def self.check_group_used(group)
     @used_groups.each do | used_group |
       present = 0
-      print used_group
-      puts
-
       group.each do | member |
-        puts member
          present += 1 if used_group.include?(member)
       end
-      puts "yup" if present == @group_size
+      if present == @group_size
+        return true
+        break
+      end
     end
   end
 
