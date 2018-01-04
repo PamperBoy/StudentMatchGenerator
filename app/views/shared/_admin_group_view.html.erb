@@ -1,0 +1,41 @@
+<h2>ADMIN</h2>
+
+<%@groups.each do | group |%>
+  <%date = ""%>
+  <div class="group_today col-md-12">
+
+      <%get_group_today( group.group_id ).each do | admin |%>
+        <div class="item col-md-4">
+          <h4><%=admin.user_id%></h4>
+        </div>
+
+        <% date = group.date.strftime("%A, %d %b %Y %H:%M ") %>
+
+      <%end%>
+      <div class="item col-md-4">
+        <h4><%=date%></h4>
+      </div>
+  </div>
+<%end%>
+
+
+
+<h2>STUDENTS</h2>
+
+<%@groups.each do | group |%>
+  <%date = ""%>
+  <div class="group_today col-md-12">
+
+      <%get_group_history( group.group_id ).each do | student_group |%>
+        <div class="item col-md-4">
+          <h4><%=student_group.user_id%></h4>
+        </div>
+
+        <% date = group.date.strftime("%A, %d %b %Y %H:%M ") %>
+
+      <%end%>
+      <div class="item col-md-4">
+        <h4><%=date%></h4>
+      </div>
+  </div>
+<%end%>
