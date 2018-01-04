@@ -17,13 +17,17 @@ student_8 = User.create!(email: Faker::Internet.email, password:  Faker::Interne
 student_9 = User.create!(email: Faker::Internet.email, password:  Faker::Internet.password)
 student_10 = User.create!(email: Faker::Internet.email, password:  Faker::Internet.password)
 
-StudentGroup.create!(user_id: student_1.id, date: Date.today, group_id: 1)
-StudentGroup.create!(user_id: student_2.id, date: Date.today, group_id: 1)
-StudentGroup.create!(user_id: student_3.id, date: Date.today, group_id: 2)
+StudentGroup.create!(user_id: student_1.id, date: Date.yesterday, group_id: 1)
+StudentGroup.create!(user_id: student_2.id, date: Date.yesterday, group_id: 1)
+StudentGroup.create!(user_id: student_1.id, date: Date.today, group_id: 2)
 StudentGroup.create!(user_id: student_4.id, date: Date.today, group_id: 2)
-StudentGroup.create!(user_id: student_5.id, date: Date.today, group_id: 3)
-StudentGroup.create!(user_id: student_6.id, date: Date.today, group_id: 3)
+StudentGroup.create!(user_id: student_1.id, date: Date.tomorrow, group_id: 3)
+StudentGroup.create!(user_id: student_5.id, date: Date.tomorrow, group_id: 3)
+
+
+
+StudentGroup.create!(user_id: student_6.id, date: Date.today, group_id: 4)
 StudentGroup.create!(user_id: student_7.id, date: Date.today, group_id: 4)
-StudentGroup.create!(user_id: student_8.id, date: Date.today, group_id: 4)
+StudentGroup.create!(user_id: student_8.id, date: Date.today, group_id: 5)
 StudentGroup.create!(user_id: student_9.id, date: Date.today, group_id: 5)
-StudentGroup.create!(user_id: student_10.id, date: Date.today, group_id: 5)
+StudentGroup.create!(user_id: student_10.id, date: Date.today, group_id: 6)

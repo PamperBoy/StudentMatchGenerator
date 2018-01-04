@@ -1,4 +1,7 @@
-<%=@user.id%>
-<%@current_user_groups.each do | group |%>
-  <%=group.user_id%>
+<h1>CURRENT USER ID: <%= @user.id %></h1>
+
+<% if @user.admin == true %>
+  <%=render 'shared/admin_group_view'%>
+<%else%>
+<%=render 'shared/student_group_view'%>
 <%end%>
