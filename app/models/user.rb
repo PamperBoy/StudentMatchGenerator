@@ -20,10 +20,12 @@ class User < ApplicationRecord
   @used_groups = []
 
 private
-  def self.create_groups
-    per_day = @max_groups_per_day.dup
+
+  def self.create_groups_per_day
+    max_groups_per_day = @max_groups_per_day.dup
     puts "start"
-    while per_day > 0 do
+
+    while max_groups_per_day > 0 do
 
       first = get_random_id
       @students_duplicate.delete(first)
@@ -32,37 +34,31 @@ private
       @students_duplicate.delete(second)
 
       group = generate_group(first, second)
+
       if check_group_used(group) == true
         @students_duplicate << first
         @students_duplicate << second
 
-        if @students_duplicate.length == @group_size
-          @students_duplicate << @used_groups.last(@group_size - 1).flatten
-            print "asdasdasfasdasd"
-            redo
-        end
+        restore_students and redo if @students_duplicate.length == @group_size
       end
 
-
-        # @students_duplicate.delete(first)
-        # @students_duplicate.delete(second)
-
       @used_groups << group
-      per_day -= 1
+      max_groups_per_day -= 1
       reset_all and break if @max_unique == @used_groups.length
     end
-    puts "========================="
-    print "used groups:\n"
-    @used_groups.in_groups_of(@max_groups_per_day) {|group| p group}
 
     @students_duplicate = @students.dup
-    per_day = @max_groups_per_day.dup
+    max_groups_per_day = @max_groups_per_day.dup
 
-
+    print_results
   end
 
   def self.reset_all
     @used_groups = []
+  end
+
+  def self.restore_students
+    @students_duplicate << @used_groups.last(@group_size - 1).flatten
   end
 
   def self.check_group_used(group)
@@ -78,16 +74,18 @@ private
     end
   end
 
-
-
   def self.generate_group(*args)
     args.collect { |arg| arg}
   end
 
   def self.get_random_id
     @students_duplicate.sample
-
   end
 
+  def self.print_results
+    puts "========================="
+    print "used groups:\n"
+    @used_groups.in_groups_of(@max_groups_per_day) {|group| p group}
+  end
 
 end
