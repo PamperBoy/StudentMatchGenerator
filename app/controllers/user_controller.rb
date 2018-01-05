@@ -1,27 +1,23 @@
 class UserController < ApplicationController
 
-  def show
+  def index
     @user = current_user
-    @groups = StudentGroup.all
-
-
-    if @user.admin == false
-      @groups = @groups.where(user_id: @user.id).all
+    if @user.admin
+      @groups = StudentGroup.all
+      @admins = User.where(admin: true).where.not(id: @user.id).all
+      @students = User.where(admin: false).all
+    else
+      @groups = StudentGroup.where(user_id: @user.id).all
     end
+  end
+
+  def toggle_admin
+    @user = User.find(params[:id])
+    @user.toggle!(:admin)
+    redirect_to root_path
   end
 
   private
-
-
-  def method_name
-
-    @current_user_groups = @groups.where(user_id: @user.id).all
-    @current_user_groups.each do | group |
-
-    end
-  end
-
-
 
   def get_student_group(id)
     StudentGroup.all.where(group_id: id).all

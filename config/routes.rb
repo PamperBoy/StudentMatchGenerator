@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   authenticated :user do
-    root 'user#show', as: :authenticated_root
+    root 'user#index', as: :authenticated_root
   end
 
 
@@ -11,5 +11,6 @@ Rails.application.routes.draw do
     root to: "devise/sessions#new"
   end
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :users
+  put 'admins/:id' => 'user#toggle_admin', :as => "toggle_admin"
 end

@@ -1,7 +1,7 @@
 <h1>CURRENT USER ID: <%= @user.id %></h1>
 
 <% if @user.admin == true %>
-  <%=render 'shared/admin_group_view'%>
+  <%=render 'admin_users_view'%>
 <%else%>
-<%=render 'shared/student_group_view'%>
+<%=render 'student_group_view'%>
 <%end%>

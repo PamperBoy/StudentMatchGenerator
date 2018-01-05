@@ -1,0 +1,39 @@
+<table class="table">
+    <caption><h2>Admins</h2></caption>
+     <thead>
+    <tr>
+      <th class="col-md-1" >User id</th>
+      <th>Email</th>
+      <th class="col-md-1" >Demote</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%@admins.each do | admin |%>
+      <tr>
+        <td><%= admin.id%></td>
+        <td><%= admin.email%></td>
+        <td><%= link_to "Demote",{action: "toggle_admin", id: admin.id}, method: :put, class:"btn btn-danger" %></td>
+      </tr>
+    <%end%>
+  </tbody>
+</table>
+
+<table class="table">
+    <caption><h2>Students</h2></caption>
+     <thead>
+    <tr>
+      <th class="col-md-1">User id</th>
+      <th>Email</th>
+      <th class="col-md-1">Demote</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%@students.each do | student |%>
+      <tr>
+        <td><%= student.id%></td>
+        <td><%= student.email%></td>
+        <td><%= link_to "Promote",{action: "toggle_admin", id: student.id}, method: :put, class:"btn btn-success" %></td>
+      </tr>
+    <%end%>
+  </tbody>
+</table>
