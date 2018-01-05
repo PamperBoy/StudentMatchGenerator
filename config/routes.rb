@@ -13,4 +13,5 @@ Rails.application.routes.draw do
 
   resources :users
   put 'admins/:id' => 'user#toggle_admin', :as => "toggle_admin"
+  get "show" => "user#show", as: "show"
 end
