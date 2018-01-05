@@ -8,27 +8,61 @@ class User < ApplicationRecord
 
 
   # Get id's where not admin true
-  @students = User.all.where.not('admin >= ?', true).all.ids
+  @students = User.all.where('admin = ?', false).all.ids
 
-  @number_of_students = @students.length
+  @students_duplicate = @students.dup
+  @number_of_students = @students_duplicate.length
   @group_size = 2
-  @max_unique = (@number_of_students / @group_size) * (@number_of_students - 1)
-  @iterations = @max_unique / @group_size
+  @max_groups_per_day = @number_of_students / @group_size
+  @max_unique = @max_groups_per_day * (@number_of_students - 1)
+  @iterations = @max_unique / @max_groups_per_day
 
-  @used_groups = [[84,86],[83,84],[82,86]]
+  @used_groups = []
 
 private
   def self.create_groups
-    print @students
-    puts
-    group = generate_group
-    print @students
-    puts
+    per_day = @max_groups_per_day.dup
+    puts "start"
+    while per_day > 0 do
 
-    @used_numbers.concat( group )
+      first = get_random_id
+      @students_duplicate.delete(first)
 
-    print @used_numbers
+      second = get_random_id
+      @students_duplicate.delete(second)
 
+      group = generate_group(first, second)
+      if check_group_used(group) == true
+        @students_duplicate << first
+        @students_duplicate << second
+
+        if @students_duplicate.length == @group_size
+          @students_duplicate << @used_groups.last(@group_size - 1).flatten
+            print "asdasdasfasdasd"
+            redo
+        end
+      end
+
+
+        # @students_duplicate.delete(first)
+        # @students_duplicate.delete(second)
+
+      @used_groups << group
+      per_day -= 1
+      reset_all and break if @max_unique == @used_groups.length
+    end
+    puts "========================="
+    print "used groups:\n"
+    @used_groups.in_groups_of(@max_groups_per_day) {|group| p group}
+
+    @students_duplicate = @students.dup
+    per_day = @max_groups_per_day.dup
+
+
+  end
+
+  def self.reset_all
+    @used_groups = []
   end
 
   def self.check_group_used(group)
@@ -46,14 +80,13 @@ private
 
 
 
-  def self.generate_group
-    @group_size.times.collect { get_random_id }
+  def self.generate_group(*args)
+    args.collect { |arg| arg}
   end
 
   def self.get_random_id
-    id = @students.sample
+    @students_duplicate.sample
 
-    # @students.delete_if { |student_id | student_id == id }
   end
 
 
